@@ -23,15 +23,7 @@ setup(
     ),
     package_dir={"": "src"},
     install_requires=[
-        "numpy",
-        "tensorflow",
-        "keras",
-        "flask",
         "pyyaml",
-        "requests",
-        "sqlalchemy",
-        "opencv-python==4.5.5.62",
-        "opencv-contrib-python==4.5.5.62",
     ],
     entry_points={
         # "console_scripts": "tpus=tpu_server.app:app_main"
