@@ -1,5 +1,5 @@
 import pytest
-from pyjutsu.collections import circular
+from pyjutsu.collection_utils import circular
 
 
 def test_circular():

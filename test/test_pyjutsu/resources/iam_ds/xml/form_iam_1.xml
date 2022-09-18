@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE form SYSTEM 'http://www.iam.unibe.ch/~fki/iamdb/form-metadata.dtd'>
+<form
+        created="2022-09-18"
+        id="form_iam_0"
+        width="128"
+        height="128"
+        last-modified="2022-09-18"
+        skew="287"
+        status="final"
+        version="1.0_beta"
+        writer-id="000"
+>
+  <machine-printed-part>
+    <machine-print-line text="Hello world" />
+    <machine-print-line text="Second line" />
+  </machine-printed-part>
+  <handwritten-part>
+    <!--
+        Stepan: I don't know what are most of 'line' fields about, honestly.
+        Only 'asx' and 'asy' fields which are X and Y line offsets make sense.
+    -->
+    <line ass="-187" asx="0"
+          asy="15"
+          character-width="999"
+          dss="-187" dsx="0" dsy="831"
+          fd0="12129" fd1="2994" fd2="-339"
+          filter-width="5"
+          id="a01-000u-00"
+          lbs="-108" lbx="0" lby="810"
+          segmentation="ok"
+          slant="90000"
+          stroke-width="7333"
+          threshold="154"
+          text="Hello world" ubs="-347" ubx="0" uby="769">
+      <word id="form_iam_1-0" sentence-start="yes" tag="AT" text="This">
+        <cmp x="9" y="15" width="40" height="16" />
+      </word>
+      <word id="form_iam_1-1" tag="AT" text="area">
+        <cmp x="57" y="20" width="43" height="11" />
+      </word>
+      <lower-contour>
+        <point x="9" y="31" />
+        <point x="100" y="31" />
+      </lower-contour>
+    </line>
+    <line ass="-187" asx="0"
+          asy="65"
+          character-width="999"
+          dss="-187" dsx="0" dsy="831"
+          fd0="12129" fd1="2994" fd2="-339"
+          filter-width="5"
+          id="a01-000u-00"
+          lbs="-108" lbx="0" lby="810"
+          segmentation="ok"
+          slant="90000"
+          stroke-width="7333"
+          threshold="154"
+          text="This are worth" ubs="-347" ubx="0" uby="769">
+      <word id="form_iam_1-2" sentence-start="yes" tag="AT" text="worth">
+        <cmp x="10" y="65" width="55" height="16" />
+      </word>
+      <lower-contour>
+        <point x="10" y="81" />
+        <point x="65" y="81" />
+      </lower-contour>
+    </line>
+  </handwritten-part>
+</form>
+

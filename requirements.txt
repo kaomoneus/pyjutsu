@@ -2,3 +2,13 @@ pyyaml
 tqdm
 pytest
 coverage
+numpy
+click
+click-option-group
+opencv-python==4.5.5.62
+opencv-contrib-python==4.5.5.62
+tensorflow
+tensorboard
+matplotlib
+scipy
+pydantic

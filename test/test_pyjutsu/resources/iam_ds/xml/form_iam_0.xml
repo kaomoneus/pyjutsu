@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE form SYSTEM 'http://www.iam.unibe.ch/~fki/iamdb/form-metadata.dtd'>
+<form
+        created="2022-09-18"
+        id="form_iam_0"
+        width="128"
+        height="128"
+        last-modified="2022-09-18"
+        skew="287"
+        status="final"
+        version="1.0_beta"
+        writer-id="000"
+>
+  <machine-printed-part>
+    <machine-print-line text="Hello world" />
+    <machine-print-line text="Seoncd line" />
+  </machine-printed-part>
+  <handwritten-part>
+    <!--
+        Stepan: I don't know what are most of 'line' fields about, honestly.
+        Only 'asx' and 'asy' fields which are X and Y line offsets make sense.
+    -->
+    <line ass="-187" asx="0"
+          asy="14"
+          character-width="999"
+          dss="-187" dsx="0" dsy="831"
+          fd0="12129" fd1="2994" fd2="-339"
+          filter-width="5"
+          id="a01-000u-00"
+          lbs="-108" lbx="0" lby="810"
+          segmentation="ok"
+          slant="90000"
+          stroke-width="7333"
+          threshold="154"
+          text="Hello world Second line" ubs="-347" ubx="0" uby="769">
+      <word id="form_iam_0-0" sentence-start="yes" tag="AT" text="Hello">
+        <cmp x="7" y="14" width="46" height="16" />
+      </word>
+      <word id="form_iam_0-1" tag="AT" text="world">
+        <cmp x="62" y="13" width="52" height="16" />
+      </word>
+      <lower-contour>
+        <point x="7" y="29" />
+        <point x="114" y="29" />
+      </lower-contour>
+    </line>
+    <line ass="-187" asx="0"
+          asy="64"
+          character-width="999"
+          dss="-187" dsx="0" dsy="831"
+          fd0="12129" fd1="2994" fd2="-339"
+          filter-width="5"
+          id="a01-000u-00"
+          lbs="-108" lbx="0" lby="810"
+          segmentation="ok"
+          slant="90000"
+          stroke-width="7333"
+          threshold="154"
+          text="Hello world" ubs="-347" ubx="0" uby="769">
+      <word id="form_iam_0-2" sentence-start="yes" tag="AT" text="Second">
+        <cmp x="6" y="64" width="71" height="16" />
+      </word>
+      <word id="form_iam_0-3" tag="AT" text="world">
+        <cmp x="86" y="63" width="33" height="16" />
+      </word>
+      <lower-contour>
+        <point x="6" y="80" />
+        <point x="119" y="80" />
+      </lower-contour>
+    </line>
+  </handwritten-part>
+</form>
+
