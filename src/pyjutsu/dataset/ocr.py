@@ -11,7 +11,7 @@ import random
 import shutil
 import xml.dom.minidom
 from pathlib import Path
-from typing import List, Iterable, Union, Callable, Any, Dict, Sequence
+from typing import List, Iterable, Union, Callable, Any, Dict, Sequence, Set
 from xml.dom.minidom import Document, Element
 
 import cv2
@@ -345,12 +345,24 @@ def _load_xml(
         yield sample
 
 
-def load_iam(iam_dir: Path, no_load: bool = False) -> Iterable[Sample]:
+def load_iam(
+    iam_dir: Path,
+    no_load: bool = False,
+    valid_chars: Set[str] = None,
+    words_ids_whitelist: Set[str] = None,
+    words_ids_blacklist: Set[str] = None,
+) -> Iterable[Sample]:
     """
     Loads IAM dataset
     :param iam_dir: root directory of IAM database
     :param no_load: don't load image, just put path into Sample.img field
-    :return: collection of OCR dataset samples.
+    :param valid_chars: list of valid characters. If provided, all
+        words which contains any other characters will be skipped
+    :param words_ids_whitelist: list of whitelist word IDs.
+        If provided all words that are not in whitelist will be ignored
+    :param words_ids_blacklist: list of blacklisted word IDs.
+        If provided any all words from blacklist will be skipped
+    :return: collection of OCR dataset samples
     """
     xml_dir = iam_dir / "xml"
 
@@ -360,25 +372,42 @@ def load_iam(iam_dir: Path, no_load: bool = False) -> Iterable[Sample]:
             xml_path.parent.parent / "forms"
         )
 
+    def _get_word(node: Element):
+        return Word(
+            word_id=node.getAttribute("id"),
+            text=node.getAttribute("text"),
+            glyphs=[
+                Rect.from_xywh(
+                    int(rect_node.getAttribute("x")),
+                    int(rect_node.getAttribute("y")),
+                    int(rect_node.getAttribute("width")),
+                    int(rect_node.getAttribute("height")),
+                )
+                for rect_node in node.getElementsByTagName("cmp")
+            ]
+        )
+
+    def _is_word_valid(w: Word):
+        if words_ids_whitelist and w.word_id not in words_ids_whitelist:
+            return False
+
+        if words_ids_blacklist and w.word_id in words_ids_blacklist:
+            return False
+
+        if valid_chars and set(w.text).difference(valid_chars):
+            return False
+
+        if not w.is_roi_valid():
+            return False
+
+        return True
+
     def _get_line(line_node: Element) -> Line:
         words = [
-            Word(
-                word_id=node.getAttribute("id"),
-                text=node.getAttribute("text"),
-                glyphs=[
-                    Rect.from_xywh(
-                        int(rect_node.getAttribute("x")),
-                        int(rect_node.getAttribute("y")),
-                        int(rect_node.getAttribute("width")),
-                        int(rect_node.getAttribute("height")),
-                    )
-                    for rect_node in node.getElementsByTagName("cmp")
-                ]
-            )
-            for node in line_node.getElementsByTagName("word")
+            word
+            for word in map(_get_word, line_node.getElementsByTagName("word"))
+            if _is_word_valid(word)
         ]
-        valid_words = map(lambda w: w.is_roi_valid(), words)
-        words = list(itertools.compress(words, valid_words))
         text = " ".join(map(lambda w: w.text, words))
         return Line(text=text, words=words)
 

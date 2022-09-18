@@ -4,6 +4,8 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from typing import Sequence, Iterable
 
+from pyjutsu.dataset.iam_lists.blacklist import IAM_BLACKLIST
+from pyjutsu.dataset.iam_lists.whitelist import IAM_WHITELIST
 from pyjutsu.dataset.ocr import load_iam, _StoredDataset, load_page_xml, load_dataset, save_dataset, Sample
 from test_pyjutsu.config import RESOURCES_BASE
 
@@ -20,6 +22,41 @@ def test_load_iam_simple():
     assert len(dataset.samples["form_iam_0"].markup) == 2
     assert len(dataset.samples["form_iam_0"].markup[1].words) == 2
     assert dataset.samples["form_iam_0"].markup[0].words[1].text == "world"
+    assert len(dataset.samples["form_iam_1"].markup) == 2
+
+
+def test_load_iam_validity_lists():
+
+    iam_root = RESOURCES_BASE / "iam_ds"
+
+    alphabet = set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz")
+    all_words = {
+        "form_iam_0-0",
+        "form_iam_0-1",
+        "form_iam_0-2",
+        "form_iam_0-3",
+        "form_iam_1-0",
+        "form_iam_1-1",
+        "form_iam_1-2",
+    }
+
+    valid_words = all_words.difference({"form_iam_0-3"})
+    invalid_words = {"form_iam_0-1"}
+
+    res = load_iam(
+        iam_dir=iam_root,
+        no_load=False,
+        valid_chars=alphabet.difference({"H"}),
+        words_ids_whitelist=valid_words,
+        words_ids_blacklist=invalid_words
+    )
+
+    dataset = _StoredDataset.from_samples(res)
+
+    assert len(dataset.samples) == 2
+    assert len(dataset.samples["form_iam_0"].markup) == 1
+    assert len(dataset.samples["form_iam_0"].markup[0].words) == 1
+    assert dataset.samples["form_iam_0"].markup[0].words[0].text == "Second"
     assert len(dataset.samples["form_iam_1"].markup) == 2
 
 
@@ -67,3 +104,10 @@ def test_save_load_dataset():
     ))
 
     assert isinstance(samples_ds_noload[0].img, Path)
+
+
+def test_iam_lists_non_empty():
+    # Update these numbers each time you
+    # do manual check session.
+    assert len(IAM_WHITELIST) >= 21795
+    assert len(IAM_BLACKLIST) >= 3627
